@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIRTHDAY BLISS - Luxury Celebration Planner</title>
+    <style>
+        :root {
+            --bg-dark: #0a0b0d;
+            --panel-dark: #121418;
+            --gold-primary: #d4af37;
+            --gold-bright: #f3e5ab;
+            --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            --text-light: #f5f6f8;
+            --text-muted: #8a909a;
+            --crimson-alert: #ff3b30;
+            --crimson-glow: rgba(255, 59, 48, 0.15);
+            --border-color: rgba(212, 175, 55, 0.2);
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 24px 16px;
+            background: var(--panel-dark);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: var(--gold-gradient);
+        }
+
+        .brand-meta {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .product-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .assurance-box {
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid var(--gold-primary);
+            padding: 12px;
+            margin-top: 16px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .section-card {
+            background: var(--panel-dark);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--gold-bright);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            background: #1a1d24;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .ledger-box {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            background: #16191f;
+            transition: all 0.3s ease;
+        }
+
+        .ledger-box.overrun {
+            border-color: var(--crimson-alert);
+            background: var(--crimson-glow);
+            box-shadow: 0 0 10px rgba(255, 59, 48, 0.2);
+        }
+
+        .ledger-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .metric-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .metric-val.alert-text {
+            color: var(--crimson-alert);
+        }
+
+        .row-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .row-item input, .row-item select {
+            flex: 1;
+            min-width: 100px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+        .btn {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--gold-bright);
+            padding: 8px 14px;
+            font-size: 12px;
+            margin-top: 8px;
+            width: auto;
+            align-self: flex-start;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 1px solid rgba(255,59,48,0.4);
+            color: var(--crimson-alert);
+            padding: 6px;
+            width: auto;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255,59,48,0.1);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold-primary);
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .checklist-text {
+            flex: 1;
+        }
+
+        .checklist-meta {
+            font-size: 11px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .export-container {
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0 !important;
+            }
+            .container {
+                max-width: 100% !important;
+            }
+            .section-card {
+                background: #fff !important;
+                border: none !important;
+                border-bottom: 1px solid #ddd !important;
+                border-radius: 0 !important;
+                padding: 15px 0 !important;
+                page-break-inside: avoid;
+            }
+            .section-title {
+                color: #000 !important;
+                border-bottom: 2px solid #000 !important;
+            }
+            input, select, textarea {
+                background: transparent !important;
+                border: none !important;
+                border-bottom: 1px solid #000 !important;
+                border-radius: 0 !important;
+                color: #000 !important;
+                padding: 4px 0 !important;
+            }
+            .btn, .btn-secondary, .btn-danger, .assurance-box, .export-container, .brand-meta::after {
+                display: none !important;
+            }
+            .metric {
+                background: transparent !important;
+                border: 1px solid #000 !important;
+            }
+            .metric-val {
+                color: #000 !important;
+            }
+            .row-item {
+                background: transparent !important;
+                border-bottom: 1px dashed #ccc !important;
+                padding: 6px 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand-meta">Melodyflow Enterprise</div>
+        <div class="product-title">Birthday Bliss</div>
+        <div class="tagline">Premium Smart Hybrid Celebration Framework</div>
+        <div class="assurance-box">
+            🔒 <strong>Total Privacy Architecture:</strong> Execution operates 100% locally within your secure client cache. Zero server logging. Native real-time autosave enabled with full offline tracking capability.
+        </div>
+    </header>
+
+    <div class="section-card">
+        <div class="section-title">🧬 Celebration Identity & Strategic North Star</div>
+        <div class="form-grid">
+            <div class="field-group">
+                <label>Celebrant Name</label>
+                <input type="text" id="celebrant-name" placeholder="Enter name">
+            </div>
+            <div class="field-group">
+                <label>Adaptive Intelligence Tier</label>
+                <select id="age-tier" onchange="applyAdaptiveIntelligence()">
+                    <option value="toddler">👶🏽 Toddler (Ages 0 - 3)</option>
+                    <option value="kid">🧒🏽 Kid (Ages 4 - 12)</option>
+                    <option value="teen">🧑🏽 Teen (Ages 13 - 19)</option>
+                    <option value="adult" selected>👑 Adult Milestone (Ages 20+)</option>
+                </select>
+            </div>
+            <div class="field-group full-width">
+                <label>Conceptual Philosophy & Mood Objectives</label>
+                <textarea id="strategic-north-star" rows="2" placeholder="Describe the core overarching feeling, theme concept, or design anchor..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">✨ Luxury Design Profiles & Aesthetic Codes</div>
+        <div class="form-grid">
+            <div class="field-group">
+                <label>Primary Premium HEX Accent</label>
+                <input type="text" id="hex-code" placeholder="#D4AF37">
+            </div>
+            <div class="field-group">
+                <label>Celebrant Signature Style Look</label>
+                <input type="text" id="signature-look" placeholder="e.g., Royal Black Velvet Suit / Emerald Evening Gown">
+            </div>
+            <div class="field-group full-width">
+                <label>Guest Mandated Dress Code Guidelines</label>
+                <input type="text" id="dress-code" placeholder="e.g., Ultra-Luxury Monochrome White, Cocktail Formal Elegance">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">💸 Estimated vs. Actual Financial Matrix</div>
+        <div class="ledger-box" id="ledger-container">
+            <div class="form-grid" style="margin-bottom: 16px;">
+                <div class="field-group">
+                    <label>Target Funding Ceiling Limit (₦ / $)</label>
+                    <input type="number" id="budget-limit" value="500000" oninput="calculateFinancials()">
+                </div>
+            </div>
+            <div class="ledger-metrics">
+                <div class="metric">
+                    <label>Total Actual Spend</label>
+                    <div class="metric-val" id="total-actual">0</div>
+                </div>
+                <div class="metric">
+                    <label>Remaining Capital Balance</label>
+                    <div class="metric-val" id="remaining-balance">500,000</div>
+                </div>
+            </div>
+            <div id="financial-ledger-rows"></div>
+            <button class="btn btn-secondary" onclick="addLedgerRow()">＋ Append Financial Line Item</button>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">📊 Active Guest Manifest Control Center</div>
+        <div id="guest-manifest-rows"></div>
+        <button class="btn btn-secondary" onclick="addGuestRow()">＋ Append Guest Profile Line</button>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">🏢 On-Site Venue Flow Audits</div>
+        <div class="checklist-item">
+            <input type="checkbox" id="flow-arrival">
+            <div class="checklist-text">
+                <div class="checklist-meta">Arrival Footprint</div>
+                Valet lanes, clean signage pathways, and greeting reception check-in desk structure verified.
+            </div>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="flow-backdrop">
+            <div class="checklist-text">
+                <div class="checklist-meta">Media Backdrop & Lighting</div>
+                Step-and-repeat placement aligned with flash photography vectors and studio illumination paths.
+            </div>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="flow-weather">
+            <div class="checklist-text">
+                <div class="checklist-meta">Weather Contingency Channels</div>
+                Tent installations, immediate backup ballroom reservations, or overhead covering systems ready.
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">⏱️ 5-Phase Master Adaptive Timeline</div>
+        <div id="adaptive-timeline-container"></div>
+        <button class="btn btn-secondary" onclick="addNewTaskRow()">＋ Append Custom Milestone Tracking Point</button>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">👑 Delegated Day-Of Command Structures</div>
+        <div class="form-grid" style="margin-bottom: 12px;">
+            <div class="field-group">
+                <label>Primary Day-of Lead Advocate</label>
+                <input type="text" id="lead-advocate" placeholder="Name of coordinator/trusted friend">
+            </div>
+        </div>
+        <div id="command-vendor-rows"></div>
+        <button class="btn btn-secondary" onclick="addCommandVendorRow()">＋ Append Crucial Vendor Log Coordinate</button>
+    </div>
+
+    <div class="export-container">
+        <button class="btn" onclick="window.print()">🖨️ Compile & Export Flattened PDF Report</button>
+    </div>
+</div>
+
+<script>
+    const STATE_KEY = 'BIRTHDAY_BLISS_PREMIUM_STATE_V2';
+
+    const timelineTemplates = {
+        toddler: [
+            { phase: "Phase 1: 6 Months Out", desc: "Lock child-friendly interactive venues and verify soft-play safety parameters." },
+            { phase: "Phase 3: 1 Month Out", desc: "Confirm toddler safety parameters, baby-proofing adjustments, and high-chair availability thresholds." },
+            { phase: "Phase 4: 1 Week Out", desc: "Finalize pureed food alternatives, smash-cake staging timelines, and nap-schedule blocks." },
+            { phase: "Phase 5: Day Of", desc: "Execute 2-hour duration runtime limits tightly to prevent sensory exhaustion patterns." }
+        ],
+        kid: [
+            { phase: "Phase 1: 6 Months Out", desc: "Retain high-energy experiential venues (Trampoline arenas, active outdoor centers)." },
+            { phase: "Phase 3: 1 Month Out", desc: "Source specialized entertainers, balloon installations, and custom thematic cake fabricators." },
+            { phase: "Phase 4: 1 Week Out", desc: "Finalize safe-zone monitoring layouts and parental relaxation lounge coordinates." },
+            { phase: "Phase 5: Day Of", desc: "Confirm gift logging tables and manage interactive game runtimes cleanly." }
+        ],
+        teen: [
+            { phase: "Phase 1: 6 Months Out", desc: "Determine exclusive trend-forward venue spaces or premium private dining sections." },
+            { phase: "Phase 3: 1 Month Out", desc: "Audit high-end sound system rigs, custom media backdrop channels, and curated music sets." },
+            { phase: "Phase 4: 1 Week Out", desc: "Establish strict teen-privacy parameters while preserving subtle adult oversight lines." },
+            { phase: "Phase 5: Day Of", desc: "Track premium non-alcoholic cocktail bar operations and fast social media photo uploads." }
+        ],
+        adult: [
+            { phase: "Phase 1: 6 Months Out", desc: "Secure luxury multi-tier private spatial footprints or landmark architectural choices." },
+            { phase: "Phase 2: 3 Months Out", desc: "Finalize multi-course tasting sequences and curate premium champagne pairing logs." },
+            { phase: "Phase 3: 1 Month Out", desc: "Send physical embossed invitations and lock in live ambient instrumentation vendors." },
+            { phase: "Phase 4: 1 Week Out", desc: "Conduct fine dining seating configuration audits and VIP list checkouts." },
+            { phase: "Phase 5: Day Of", desc: "Deploy master schedule timelines to vendor networks cleanly at hour zero." }
+        ]
+    };
+
+    let appState = {
+        meta: {},
+        ledger: [
+            { name: "Luxury Spatial Venue Lease", estimated: 250000, actual: 270000 },
+            { name: "Premium Bespoke Catering Flow", estimated: 150000, actual: 140000 }
+        ],
+        guests: [
+            { name: "Alexander Sterling", rsvp: "confirmed", notes: "Peanut Allergy", gift: "Pending", thankYou: false }
+        ],
+        customTasks: [],
+        vendors: [
+            { assignment: "Bespoke Mixology Lead", identity: "Exquisite Bars Ltd.", contact: "+2348011223344" }
+        ]
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadState();
+        calculateFinancials();
+        renderGuests();
+        renderVendors();
+        attachAutosaveListeners();
+    });
+
+    function attachAutosaveListeners() {
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('input', saveState);
+        });
+    }
+
+    function saveState() {
+        appState.meta.name = document.getElementById('celebrant-name').value;
+        appState.meta.ageTier = document.getElementById('age-tier').value;
+        appState.meta.northStar = document.getElementById('strategic-north-star').value;
+        appState.meta.hexCode = document.getElementById('hex-code').value;
+        appState.meta.signatureLook = document.getElementById('signature-look').value;
+        appState.meta.dressCode = document.getElementById('dress-code').value;
+        appState.meta.budgetLimit = document.getElementById('budget-limit').value;
+        appState.meta.leadAdvocate = document.getElementById('lead-advocate').value;
+        appState.meta.flowArrival = document.getElementById('flow-arrival').checked;
+        appState.meta.flowBackdrop = document.getElementById('flow-backdrop').checked;
+        appState.meta.flowWeather = document.getElementById('flow-weather').checked;
+
+        appState.meta.taskChecks = {};
+        document.querySelectorAll('.task-check-input').forEach(chk => {
+            appState.meta.taskChecks[chk.dataset.taskid] = chk.checked;
+        });
+
+        localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+    }
+
+    function loadState() {
+        const stored = localStorage.getItem(STATE_KEY);
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if(parsed.ledger) appState.ledger = parsed.ledger;
+                if(parsed.guests) appState.guests = parsed.guests;
+                if(parsed.customTasks) appState.customTasks = parsed.customTasks;
+                if(parsed.vendors) appState.vendors = parsed.vendors;
+                if(parsed.meta) appState.meta = parsed.meta;
+
+                document.getElementById('celebrant-name').value = appState.meta.name || '';
+                document.getElementById('age-tier').value = appState.meta.ageTier || 'adult';
+                document.getElementById('strategic-north-star').value = appState.meta.northStar || '';
+                document.getElementById('hex-code').value = appState.meta.hexCode || '';
+                document.getElementById('signature-look').value = appState.meta.signatureLook || '';
+                document.getElementById('dress-code').value = appState.meta.dressCode || '';
+                document.getElementById('budget-limit').value = appState.meta.budgetLimit !== undefined ? appState.meta.budgetLimit : 500000;
+                document.getElementById('lead-advocate').value = appState.meta.leadAdvocate || '';
+                document.getElementById('flow-arrival').checked = !!appState.meta.flowArrival;
+                document.getElementById('flow-backdrop').checked = !!appState.meta.flowBackdrop;
+                document.getElementById('flow-weather').checked = !!appState.meta.flowWeather;
+            } catch (e) { console.error("Error loading state cache", e); }
+        }
+        applyAdaptiveIntelligence(false);
+    }
+
+    function applyAdaptiveIntelligence(triggerSave = true) {
+        const selectedTier = document.getElementById('age-tier').value;
+        const container = document.getElementById('adaptive-timeline-container');
+        container.innerHTML = '';
+
+        const template = timelineTemplates[selectedTier] || timelineTemplates.adult;
+        const checks = appState.meta.taskChecks || {};
+
+        template.forEach((item, index) => {
+            const checkedAttr = checks[`tpl-${index}`] ? 'checked' : '';
+            container.appendChild(createTaskElement(`tpl-${index}`, item.phase, item.desc, checkedAttr));
+        });
+
+        appState.customTasks.forEach((item, index) => {
+            const checkedAttr = checks[`custom-${index}`] ? 'checked' : '';
+            container.appendChild(createTaskElement(`custom-${index}`, "Custom Milestone", item, checkedAttr, true, index));
+        });
+
+        if (triggerSave) saveState();
+    }
+
+    function createTaskElement(id, phase, desc, checkedAttr, isCustom = false, index = 0) {
+        const div = document.createElement('div');
+        div.className = 'checklist-item';
+        div.innerHTML = `
+            <input type="checkbox" class="task-check-input" data-taskid="${id}" ${checkedAttr} onchange="saveState()">
+            <div class="checklist-text">
+                <div class="checklist-meta">${phase}</div>
+                ${isCustom ? `<input type="text" value="${desc}" style="font-size:13px; padding:4px;" oninput="updateCustomTask(${index}, this.value)">` : desc}
+            </div>
+            ${isCustom ? `<button class="btn-danger" style="padding: 2px 6px; font-size:10px;" onclick="removeCustomTask(${index})">✕</button>` : ''}
+        `;
+        return div;
+    }
+
+    function addNewTaskRow() {
+        appState.customTasks.push("New specialized custom action metric...");
+        applyAdaptiveIntelligence();
+    }
+
+    function updateCustomTask(index, val) {
+        appState.customTasks[index] = val;
+        saveState();
+    }
+
+    function removeCustomTask(index) {
+        appState.customTasks.splice(index, 1);
+        applyAdaptiveIntelligence();
+    }
+
+    function renderLedger() {
+        const container = document.getElementById('financial-ledger-rows');
+        container.innerHTML = '';
+        appState.ledger.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'row-item';
+            div.innerHTML = `
+                <input type="text" value="${item.name}" placeholder="Expense Classification" oninput="updateLedgerItem(${idx}, 'name', this.value)">
+                <input type="number" value="${item.estimated}" placeholder="Est. Cost" style="max-width:90px;" oninput="updateLedgerItem(${idx}, 'estimated', this.value)">
+                <input type="number" value="${item.actual}" placeholder="Act. Spend" style="max-width:90px;" oninput="updateLedgerItem(${idx}, 'actual', this.value)">
+                <button class="btn-danger" onclick="removeLedgerItem(${idx})">✕</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function addLedgerRow() {
+        appState.ledger.push({ name: '', estimated: 0, actual: 0 });
+        calculateFinancials();
+    }
+
+    function updateLedgerItem(idx, field, val) {
+        appState.ledger[idx][field] = field === 'name' ? val : parseFloat(val) || 0;
+        calculateFinancials();
+    }
+
+    function removeLedgerItem(idx) {
+        appState.ledger.splice(idx, 1);
+        calculateFinancials();
+    }
+
+    function calculateFinancials() {
+        renderLedger();
+        const limit = parseFloat(document.getElementById('budget-limit').value) || 0;
+        let totalActual = 0;
+
+        appState.ledger.forEach(item => { totalActual += item.actual; });
+
+        const remaining = limit - totalActual;
+        const totalActualEl = document.getElementById('total-actual');
+        const remainingBalanceEl = document.getElementById('remaining-balance');
+        const ledgerContainer = document.getElementById('ledger-container');
+
+        totalActualEl.innerText = totalActual.toLocaleString();
+        remainingBalanceEl.innerText = remaining.toLocaleString();
+
+        if (totalActual > limit) {
+            ledgerContainer.classList.add('overrun');
+            totalActualEl.classList.add('alert-text');
+        } else {
+            ledgerContainer.classList.remove('overrun');
+            totalActualEl.classList.remove('alert-text');
+        }
+        saveState();
+    }
+
+    function renderGuests() {
+        const container = document.getElementById('guest-manifest-rows');
+        container.innerHTML = '';
+        appState.guests.forEach((guest, idx) => {
+            const div = document.createElement('div');
+            div.className = 'row-item';
+            div.innerHTML = `
+                <input type="text" value="${guest.name}" placeholder="Guest Full Name" oninput="updateGuestItem(${idx}, 'name', this.value)">
+                <select onchange="updateGuestItem(${idx}, 'rsvp', this.value)" style="max-width:115px;">
+                    <option value="pending" ${guest.rsvp === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                    <option value="confirmed" ${guest.rsvp === 'confirmed' ? 'selected' : ''}>✅ Confirmed</option>
+                    <option value="declined" ${guest.rsvp === 'declined' ? 'selected' : ''}>✕ Declined</option>
+                </select>
+                <input type="text" value="${guest.notes}" placeholder="Dietary/Allergies" oninput="updateGuestItem(${idx}, 'notes', this.value)">
+                <input type="text" value="${guest.gift || ''}" placeholder="Gift Logging" style="max-width:90px;" oninput="updateGuestItem(${idx}, 'gift', this.value)">
+                <select onchange="updateGuestItem(${idx}, 'thankYou', this.value === 'true')" style="max-width:90px;">
+                    <option value="false" ${!guest.thankYou ? 'selected' : ''}>Unsent</option>
+                    <option value="true" ${guest.thankYou ? 'selected' : ''}>Thanked</option>
+                </select>
+                <button class="btn-danger" onclick="removeGuestItem(${idx})">✕</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function addGuestRow() {
+        appState.guests.push({ name: '', rsvp: 'pending', notes: '', gift: '', thankYou: false });
+        renderGuests();
+        saveState();
+    }
+
+    function updateGuestItem(idx, field, val) {
+        appState.guests[idx][field] = val;
+        saveState();
+    }
+
+    function removeGuestItem(idx) {
+        appState.guests.splice(idx, 1);
+        renderGuests();
+        saveState();
+    }
+
+    function renderVendors() {
+        const container = document.getElementById('command-vendor-rows');
+        container.innerHTML = '';
+        appState.vendors.forEach((vendor, idx) => {
+            const div = document.createElement('div');
+            div.className = 'row-item';
+            div.innerHTML = `
+                <input type="text" value="${vendor.assignment}" placeholder="Assignment (e.g., DJ / Cake)" oninput="updateVendorItem(${idx}, 'assignment', this.value)">
+                <input type="text" value="${vendor.identity}" placeholder="Vendor Firm Identity" oninput="updateVendorItem(${idx}, 'identity', this.value)">
+                <input type="text" value="${vendor.contact}" placeholder="Tracking Phone / Coordinates" oninput="updateVendorItem(${idx}, 'contact', this.value)">
+                <button class="btn-danger" onclick="removeVendorItem(${idx})">✕</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function addCommandVendorRow() {
+        appState.vendors.push({ assignment: '', identity: '', contact: '' });
+        renderVendors();
+        saveState();
+    }
+
+    function updateVendorItem(idx, field, val) {
+        appState.vendors[idx][field] = val;
+        saveState();
+    }
+
+    function removeVendorItem(idx) {
+        appState.vendors.splice(idx, 1);
+        renderVendors();
+        saveState();
+    }
+</script>
+</body>
+</html>
